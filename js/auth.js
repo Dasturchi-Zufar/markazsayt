@@ -1,0 +1,5 @@
+document.addEventListener("DOMContentLoaded",()=>{
+ const role=document.getElementById("login-role"),name=document.getElementById("login-name"),pass=document.getElementById("login-password"),form=document.getElementById("login-form"),feedback=document.getElementById("login-feedback");
+ role.addEventListener("change",()=>{name.value=role.value==="admin"?"admin":"student";pass.value=role.value==="admin"?"admin123":"demo123"});
+ form.addEventListener("submit",e=>{e.preventDefault();const valid=(role.value==="student"&&name.value==="student"&&pass.value==="demo123")||(role.value==="admin"&&name.value==="admin"&&pass.value==="admin123");if(!valid){feedback.className="form-feedback error";feedback.textContent="Login yoki parol noto‘g‘ri. Demo ma’lumotlarini tekshiring.";return}sessionStorage.setItem("educenter_demo_role",role.value);location.href=role.value==="admin"?"admin.html":"student.html"});
+});

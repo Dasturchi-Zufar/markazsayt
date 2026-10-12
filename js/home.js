@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{const box=document.getElementById("featured-courses");if(box){box.innerHTML=EduData.get().courses.slice(0,3).map(EduUI.courseCard).join("")}});

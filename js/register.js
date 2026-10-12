@@ -1,0 +1,6 @@
+document.addEventListener("DOMContentLoaded",()=>{
+ const form=document.getElementById("register-form"),select=document.getElementById("register-course"),feedback=document.getElementById("register-feedback");
+ EduData.get().courses.forEach(c=>{const o=document.createElement("option");o.value=c.id;o.textContent=c.title+" · "+EduData.money(c.price)+"/oy";select.append(o)});
+ const preset=new URLSearchParams(location.search).get("course");if(preset&&EduData.course(preset))select.value=preset;
+ form.addEventListener("submit",e=>{e.preventDefault();if(!form.reportValidity())return;const fd=new FormData(form),d=EduData.get(),name=(fd.get("firstName")+" "+fd.get("lastName")).trim();d.applications.unshift({id:Date.now(),name,phone:String(fd.get("phone")).trim(),email:String(fd.get("email")||"").trim(),courseId:String(fd.get("courseId")),message:String(fd.get("message")||"").trim(),date:new Date().toISOString().slice(0,10),status:"Yangi"});EduData.save(d);feedback.className="form-feedback success";feedback.textContent="Arizangiz demo rejimida saqlandi. Admin panelda ko‘rishingiz mumkin.";form.reset();if(preset)select.value=preset;});
+});

@@ -1,0 +1,6 @@
+document.addEventListener("DOMContentLoaded",()=>{
+ const data=EduData.get(),search=document.getElementById("course-search"),category=document.getElementById("category-filter"),level=document.getElementById("level-filter"),list=document.getElementById("course-list"),count=document.getElementById("course-count"),empty=document.getElementById("empty-state");
+ [...new Set(data.courses.map(c=>c.category))].sort().forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c;category.append(o)});
+ function render(){const q=search.value.trim().toLocaleLowerCase("uz"),items=data.courses.filter(c=>(c.title+" "+c.description+" "+c.category).toLocaleLowerCase("uz").includes(q)&&(category.value==="all"||c.category===category.value)&&(level.value==="all"||c.level===level.value));count.textContent=items.length;list.innerHTML=items.map(EduUI.courseCard).join("");empty.classList.toggle("hidden",items.length>0);list.classList.toggle("hidden",items.length===0)}
+ [search,category,level].forEach(el=>el.addEventListener(el===search?"input":"change",render));render();
+});

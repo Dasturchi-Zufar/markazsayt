@@ -1,0 +1,10 @@
+document.addEventListener("DOMContentLoaded",()=>{
+ const d=EduData.get(),student=d.students.find(s=>s.id===101)||d.students[0],course=d.courses.find(c=>c.id===student.courseId);
+ document.getElementById("student-name").textContent=student.name.split(" ")[0];
+ document.getElementById("student-courses").textContent=student.status==="Faol"?1:0;
+ document.getElementById("student-attendance").textContent=student.attendance+"%";
+ document.getElementById("student-grade").textContent=student.grade.toFixed(1);
+ document.getElementById("student-progress").innerHTML=`<div><div class="progress-item-head"><span>${course?course.title:"O‘quv kursi"}</span><span>${student.progress}%</span></div><div class="progress-track"><span style="width:${student.progress}%"></span></div></div>`+d.courses.filter(c=>c.id!==student.courseId).slice(1,2).map(c=>`<div><div class="progress-item-head"><span>${c.title}</span><span>24%</span></div><div class="progress-track"><span style="width:24%"></span></div></div>`).join("");
+ const schedule=d.schedule.filter(s=>s.courseId===student.courseId);document.getElementById("student-schedule").innerHTML=(schedule.length?schedule:d.schedule.slice(0,3)).map(s=>{const date=new Date(s.date+"T12:00:00");return `<div class="schedule-item"><div class="schedule-date"><strong>${date.getDate()}</strong><span>${date.toLocaleDateString("uz-UZ",{month:"short"})}</span></div><div class="schedule-info"><strong>${s.title}</strong><span>${s.room}</span></div><span class="schedule-time">${s.time}</span></div>`}).join("");
+ const grades=d.grades.filter(g=>g.studentId===student.id);document.getElementById("student-grades").innerHTML=grades.map(g=>`<tr><td><strong>${g.title}</strong></td><td>${(d.courses.find(c=>c.id===g.courseId)||{}).title||"—"}</td><td>${g.date}</td><td><span class="grade-badge">${g.grade}/5</span></td><td>${g.status}</td></tr>`).join("")||`<tr><td colspan="5">Hozircha baholar yo‘q.</td></tr>`;
+});
